@@ -1,10 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0
 #include<linux/module.h>
+#include<linux/moduleparam.h>
 #include<linux/init.h>
+
+static char *string = "Default";
+
+module_param(string, charp, 0000);
 
 static int __init volative_init(void)
 {
 	pr_info("Hello World\n");
+	pr_info("Input param is %s\n", string);
 	return 0;
 }
 
