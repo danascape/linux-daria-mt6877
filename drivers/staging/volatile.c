@@ -19,8 +19,11 @@ static int openFile(char *path)
 {
 	int fsize = 0;
 	int err = 0;
+	const char *name;
+	unsigned long ino = 0;
 
-	// struct inode *inode;
+	struct inode *inode;
+
 	pr_info("volatile: openFile reached with %s\n", path);
 
 	fp = filp_open(path, O_RDONLY, 0);
@@ -32,6 +35,13 @@ static int openFile(char *path)
 	} else {
 		pr_info("volatile: File opened successfully!!!!");
 	}
+
+	if (fp != NULL) {
+		inode = fp->f_path.dentry->d_inode;
+	}
+
+	pr_info("volatile: File opened: %lld bytes\n", i_size_read(inode));
+	pr_info("volatile: File opened: %lu inode\n", inode->i_ino);
 
 	filp_close(fp, NULL);
 	return 0;
